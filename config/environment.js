@@ -1,7 +1,7 @@
 const development = {
-    mongopassword: 'bookstore'
-}
+  mongopassword: process.env.DB_PASSWORD_KEY,
+};
 const production = {
-    mongopassword: 'bookstore'
-}
-module.exports = {development, production};
+  mongopassword: process.env.DB_PASSWORD_KEY,
+};
+module.exports = { development, production };
