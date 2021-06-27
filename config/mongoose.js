@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const env = require('./environment');
+const user = env.development.mongousername;
 const password = env.development.mongopassword;
 mongoose.connect(
-  `mongodb+srv://bookstoreuser:${password}@cluster0.lu11w.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
+  `mongodb+srv://${user}:${password}@cluster0.lu11w.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
