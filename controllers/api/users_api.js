@@ -6,14 +6,19 @@ module.exports.signin = async (req, res) => {
   const { email, password } = req.body;
   try {
     const existingUser = await User.findOne({ email: email });
+    console.log(existingUser);
     if (!existingUser)
-      return res.status(404).json({ message: "User doesn't exists" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User doesn't exists" });
     const isPasswordCorrect = await bcrypt.compare(
       password,
       existingUser.password
     );
+    console.log(isPasswordCorrect);
     if (!isPasswordCorrect)
       return res.status(400).json({
+        success: false,
         message: 'Invalid credentials',
       });
     const token = jwt.sign(
@@ -26,9 +31,10 @@ module.exports.signin = async (req, res) => {
       { expiresIn: '30d' }
     );
 
-    return res.status(200).json({ result: existingUser, token });
+    return res.status(200).json({ success: true, result: existingUser, token });
   } catch (error) {
     return res.status(500).json({
+      success: false,
       message: 'Something went wrong on our side',
     });
   }
@@ -38,11 +44,15 @@ module.exports.signup = async (req, res) => {
     const { email, password, confirmPassword, name } = req.body;
     const existingUser = await User.findOne({ email: email });
     if (existingUser)
-      return res.status(400).json({ message: 'User already exists' });
+      return res
+        .status(400)
+        .json({ success: false, message: 'User already exists' });
 
     if (password !== confirmPassword)
-      return res.status(400).json({ message: 'Passwords do not match!' });
-    
+      return res
+        .status(400)
+        .json({ success: false, message: 'Passwords do not match!' });
+
     bcrypt.hash(password, 12, async (err, hashedPassword) => {
       let result = await User.create({
         email,
@@ -58,11 +68,12 @@ module.exports.signup = async (req, res) => {
         'robustbookstore',
         { expiresIn: '30d' }
       );
-      return res.status(200).json({ result, token });
-    });    
+      return res.status(200).json({ success: true, result, token });
+    });
   } catch (error) {
     console.log('error', error);
     return res.status(500).json({
+      success: false,
       message: 'Something went wrong on our side',
     });
   }

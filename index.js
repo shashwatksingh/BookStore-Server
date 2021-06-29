@@ -4,6 +4,7 @@ const port = 3000;
 require('dotenv').config();
 const env = require('./config/environment');
 const db = require('./config/mongoose');
+const Books = require('./models/books');
 app.get('/', function (req, res) {
   res.send('Hello World');
 });
