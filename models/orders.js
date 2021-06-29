@@ -17,9 +17,13 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    book: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
   },
   {
     timestamps: true,
   }
 );
-module.exports = mongoose.model('Order', orderSchema);
+module.exports = mongoose.model('Orders', orderSchema);
