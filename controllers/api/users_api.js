@@ -6,7 +6,6 @@ module.exports.signin = async (req, res) => {
   const { email, password } = req.body;
   try {
     const existingUser = await User.findOne({ email: email });
-    console.log(existingUser);
     if (!existingUser)
       return res
         .status(404)
@@ -15,7 +14,6 @@ module.exports.signin = async (req, res) => {
       password,
       existingUser.password
     );
-    console.log(isPasswordCorrect);
     if (!isPasswordCorrect)
       return res.status(400).json({
         success: false,

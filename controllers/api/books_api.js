@@ -46,7 +46,6 @@ module.exports.search = async (req, res) => {
 module.exports.details = async (req, res) => {
   try {
     const { id: idBook } = req.params;
-    console.log(idBook);
     let book = await Books.findById(idBook);
     if (!book)
       return res.status(200).json({
