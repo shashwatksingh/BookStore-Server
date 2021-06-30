@@ -38,8 +38,8 @@ module.exports.confirmOrder = async (req, res) => {
         },
       });
     } else {
-      res.status(400).json({
-        success: true,
+      res.status(200).json({
+        success: false,
         message: 'Order has been already created',
       });
     }
