@@ -1,12 +1,11 @@
 const express = require('express');
-var cors = require('cors') 
+let cors = require('cors');
 const app = express();
-app.use(cors())
+app.use(cors());
 const port = 3000;
 require('dotenv').config();
 const env = require('./config/environment');
 const db = require('./config/mongoose');
-const Books = require('./models/books');
 app.get('/', function (req, res) {
   res.send('Hello World');
 });
