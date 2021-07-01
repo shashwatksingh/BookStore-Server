@@ -2,6 +2,7 @@ const Order = require('../../models/orders');
 const Users = require('../../models/users');
 const mongoose = require('mongoose');
 const Orders = require('../../models/orders');
+//To confirm the order of the User
 module.exports.confirmOrder = async (req, res) => {
   try {
     const { id: idBook } = req.params;
@@ -28,6 +29,7 @@ module.exports.confirmOrder = async (req, res) => {
         { $push: { orders: newOrder._id } }
       );
       let updatedUser = await Users.findById(userId);
+      //Returning the updated user and the order document created by the user
       res.status(200).json({
         message: 'Order Created',
         success: true,
