@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 const Orders = require('../models/orders');
+const env = require('../config/environment');
+const jwtsecret = env.development.jwtsecretkey;
 
 //middleware to authenticate the private requests such as ordering etc
 
@@ -10,7 +12,7 @@ const auth = async (req, res, next) => {
     let decodeData;
 
     if (token) {
-      decodeData = jwt.verify(token, 'robustbookstore');
+      decodeData = jwt.verify(token, jwtsecret);
       console.log('id',decodeData?.id)
 
       req.userId = decodeData?.id;

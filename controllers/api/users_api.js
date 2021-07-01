@@ -1,8 +1,9 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../../models/users');
+const env = require('../../config/environment');
+const jwtsecret = env.development.jwtsecretkey;
 module.exports.signin = async (req, res) => {
-  console.log(req.body);
   const { email, password } = req.body;
   try {
     const existingUser = await User.findOne({ email: email });
@@ -25,7 +26,7 @@ module.exports.signin = async (req, res) => {
         id: existingUser._id,
         name: existingUser.name,
       },
-      'robustbookstore',
+      jwtsecret,
       { expiresIn: '30d' }
     );
 
@@ -63,7 +64,7 @@ module.exports.signup = async (req, res) => {
           id: result._id,
           name: result.name,
         },
-        'robustbookstore',
+        jwtsecret,
         { expiresIn: '30d' }
       );
       return res.status(200).json({ success: true, result, token });
