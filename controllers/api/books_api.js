@@ -21,25 +21,29 @@ module.exports.search = async (req, res) => {
   try {
     let text = req.query.text;
     //using regex expression to search for the books in the database
-    let temp = await Books.find(
-      { title: { $regex: new RegExp(text) } },
-      (err, data) => {
-        //Returning responses
-        if (err) return res.status(200).json({ message: 'No such book found' });
-        if (data.length) {
-          return res.status(200).json({
-            success: true,
-            data,
-            message: 'Book found',
-          });
-        } else {
-          return res.status(200).json({
-            success: false,
-            message: 'No such book found',
-          });
+    //we are calling the database when the text is not equal to zero
+    if (text !== '') {
+      let temp = await Books.find(
+        { title: { $regex: new RegExp(text) } },
+        (err, data) => {
+          //Returning responses
+          if (err)
+            return res.status(200).json({ message: 'No such book found' });
+          if (data.length) {
+            return res.status(200).json({
+              success: true,
+              data,
+              message: 'Book found',
+            });
+          } else {
+            return res.status(200).json({
+              success: false,
+              message: 'No such book found',
+            });
+          }
         }
-      }
-    );
+      );
+    }
   } catch (error) {
     return res.status(500).json({
       success: false,
