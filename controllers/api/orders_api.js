@@ -9,7 +9,7 @@ module.exports.confirmOrder = async (req, res) => {
     const { phoneNumber, address, pinCode, state } = req.body;
     const userId = req.userId;
     if (!req.userId)
-      res.status(400).json({ success: false, message: 'Unauthenticated User' });
+      return res.status(400).json({ success: false, message: 'Unauthenticated User' });
     //Has the order been created before by the same user
     let isOrderCreated = await Orders.findOne({ book: idBook, user: userId });
     isOrderCreated = isOrderCreated === null ? false : true;
@@ -30,7 +30,7 @@ module.exports.confirmOrder = async (req, res) => {
       );
       let updatedUser = await Users.findById(userId);
       //Returning the updated user and the order document created by the user
-      res.status(200).json({
+      return res.status(200).json({
         message: 'Order Created',
         success: true,
         results: {
@@ -39,14 +39,14 @@ module.exports.confirmOrder = async (req, res) => {
         },
       });
     } else {
-      res.status(200).json({
+      return res.status(200).json({
         success: false,
         message: 'Order has been already created',
       });
     }
   } catch (error) {
     console.log(error);
-    res
+    return res
       .status(500)
       .json({ success: false, message: 'Something went wrong on our side' });
   }

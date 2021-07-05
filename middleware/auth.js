@@ -16,10 +16,10 @@ const auth = async (req, res, next) => {
       req.userId = decodeData?.id;
     }
 
-    next();
   } catch (error) {
     console.log(error);
   }
+  next();
 };
 
 module.exports = auth;
